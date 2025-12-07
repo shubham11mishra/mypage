@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <ul>
+        <li>
+            <a href="/index.html">Home</a>
+        </li>
+          <li>
+            <a href="/dice.html">Dice</a>
+        </li>
+    </ul>
+    <div>
+        <h1>password genrator</h1>
+        <p id="my-genrated-password">passowrd</p>
+        <button id="copy">Copy</button>
+    </div>
+    <br>
+    <div>
+        <input type="range" min="1" max="15" value="5" name="no-of-digit" id="no-of-digit"
+            placeholder="Numers of digit">
+
+    </div>
+
+    <script>
+        const numberOfDigit = document.getElementById('no-of-digit');
+        const MygenratedPassword = document.getElementById('my-genrated-password')
+        const number = document.getElementById('number')
+        const small_alphabet = document.getElementById('small_alphabet')
+        const copy = document.getElementById('copy')
+        // const capital_alphabet = document.getElementById('capital_alphabet')
+        const small_alphabets = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+        const capital_alphabets = [
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+        ];
+        const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6]
+
+        copy.addEventListener('click', function () {
+            navigator.clipboard.writeText(MygenratedPassword.innerText)
+        })
+
+        numberOfDigit.addEventListener('input', function (event) {
+
+            const enteredVsluee = event.target.value;
+            let newPassword = '';
+
+            for (i = 1; i <= enteredVsluee; i++) {
+                const newRandomNumber = Math.floor(Math.random() * 26)
+
+                // const selectedArray = (Math.random() < 0.5) ? small_alphabets : ecapital_alphabets
+
+                let selectedArray;
+                if (Math.random() < 0.33) {
+                    selectedArray = small_alphabets
+                } else if (Math.random() >= 0.33 && Math.random() < 0.66) {
+                    selectedArray = capital_alphabets
+                } else {
+                    selectedArray = numbers
+                }
+
+
+                newPassword += selectedArray[newRandomNumber]
+            }
+
+            MygenratedPassword.innerText = newPassword
+        })
+
+    </script>
+</body>
+
+</html>

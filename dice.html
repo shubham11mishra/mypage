@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .dice {
+            font-size: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <ul>
+        <li>
+            <a href="/index.html">Home</a>
+        </li>
+        <li>
+            <a href="/dice.html">Dice</a>
+        </li>
+    </ul>
+    <p id="dice" class="dice"></p>
+    <button id="roll-dice">Roll</button>
+    <ul id="result"></ul>
+    <p id="mouse-position"></p>
+
+    <script>
+        const diceResult = []
+        const diceArray = ['&#9856;', '&#9857;', '&#9858;', '&#9859;', '&#9860;', '&#9861;'];
+        const rollDice = document.getElementById('roll-dice');
+        const dice = document.getElementById('dice')
+        const resultDiv = document.getElementById('result')
+        const mousePosition = document.getElementById('mouse-position')
+
+        rollDice.addEventListener('click', function (event) {
+            const randomNumber = Math.floor(Math.random() * 6)
+            diceResult.push(randomNumber)
+            dice.innerHTML = diceArray[randomNumber]
+
+            console.log(diceResult);
+            resultDiv.innerHTML = ''
+            diceResult.forEach(function (result) {
+                resultDiv.innerHTML += `<li>${diceArray[result]}</li>`;
+            })
+        })
+
+        document.addEventListener('mousemove', function (event) {
+
+            mousePosition.innerText = `x-${event.x} y-${event.y}`
+        })
+
+    </script>
+</body>
+
+</html>
