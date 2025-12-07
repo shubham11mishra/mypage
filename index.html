@@ -2,76 +2,151 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Password Generator</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #0d1117;
+            color: #e6edf3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+            padding: 0;
+        }
+
+        a {
+            color: #58a6ff;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            background: #161b22;
+            padding: 30px;
+            border-radius: 12px;
+            width: 350px;
+            text-align: center;
+            margin-top: 20px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.06);
+        }
+
+        #my-genrated-password {
+            background: #0d1117;
+            padding: 15px;
+            font-size: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            border: 1px solid #30363d;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            background: #238636;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 6px;
+            width: 100%;
+        }
+
+        button:hover {
+            background: #2ea043;
+        }
+
+        .slider-box {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        input[type="range"] {
+            width: 100%;
+        }
+
+        .range-value {
+            margin-top: 5px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <body>
-    <ul>
-        <li>
-            <a href="./index.html">Home</a>
-        </li>
-          <li>
-            <a href="./dice.html">Dice</a>
-        </li>
-    </ul>
-    <div>
-        <h1>password genrator</h1>
-        <p id="my-genrated-password">passowrd</p>
-        <button id="copy">Copy</button>
-    </div>
-    <br>
-    <div>
-        <input type="range" min="1" max="15" value="5" name="no-of-digit" id="no-of-digit"
-            placeholder="Numers of digit">
 
+    <ul>
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./dice.html">Dice</a></li>
+    </ul>
+
+    <div class="container">
+        <h1>Password Generator</h1>
+
+        <p id="my-genrated-password">password</p>
+        <button id="copy">Copy</button>
+
+        <div class="slider-box">
+            <label for="no-of-digit">Password Length</label>
+            <input type="range" min="1" max="20" value="5" id="no-of-digit">
+            <div class="range-value" id="rangeValue">5 Characters</div>
+        </div>
     </div>
 
     <script>
         const numberOfDigit = document.getElementById('no-of-digit');
-        const MygenratedPassword = document.getElementById('my-genrated-password')
-        const number = document.getElementById('number')
-        const small_alphabet = document.getElementById('small_alphabet')
-        const copy = document.getElementById('copy')
-        // const capital_alphabet = document.getElementById('capital_alphabet')
-        const small_alphabets = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
-        const capital_alphabets = [
-            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
-        ];
-        const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6]
+        const MygenratedPassword = document.getElementById('my-genrated-password');
+        const copy = document.getElementById('copy');
+        const rangeValue = document.getElementById('rangeValue');
+
+        const small_alphabets = 'abcdefghijklmnopqrstuvwxyz'.split('');
+        const capital_alphabets = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+        const numbers = '0123456789'.split('');
 
         copy.addEventListener('click', function () {
-            navigator.clipboard.writeText(MygenratedPassword.innerText)
-        })
+            navigator.clipboard.writeText(MygenratedPassword.innerText);
+            copy.innerText = "Copied!";
+            setTimeout(() => copy.innerText = "Copy", 1500);
+        });
 
         numberOfDigit.addEventListener('input', function (event) {
+            const enteredValue = event.target.value;
+            rangeValue.textContent = `${enteredValue} Characters`;
 
-            const enteredVsluee = event.target.value;
             let newPassword = '';
 
-            for (i = 1; i <= enteredVsluee; i++) {
-                const newRandomNumber = Math.floor(Math.random() * 26)
-
-                // const selectedArray = (Math.random() < 0.5) ? small_alphabets : ecapital_alphabets
-
+            for (let i = 1; i <= enteredValue; i++) {
+                const randomGroup = Math.random();
                 let selectedArray;
-                if (Math.random() < 0.33) {
-                    selectedArray = small_alphabets
-                } else if (Math.random() >= 0.33 && Math.random() < 0.66) {
-                    selectedArray = capital_alphabets
+
+                if (randomGroup < 0.33) {
+                    selectedArray = small_alphabets;
+                } else if (randomGroup < 0.66) {
+                    selectedArray = capital_alphabets;
                 } else {
-                    selectedArray = numbers
+                    selectedArray = numbers;
                 }
 
-
-                newPassword += selectedArray[newRandomNumber]
+                const randomIndex = Math.floor(Math.random() * selectedArray.length);
+                newPassword += selectedArray[randomIndex];
             }
 
-            MygenratedPassword.innerText = newPassword
-        })
-
+            MygenratedPassword.innerText = newPassword;
+        });
     </script>
 </body>
 

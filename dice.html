@@ -2,56 +2,139 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dice Roller</title>
+
     <style>
-        .dice {
-            font-size: 40px;
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #0d1117;
+            color: #e6edf3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
         }
+
+        ul.nav {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+
+        ul.nav a {
+            color: #58a6ff;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        ul.nav a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            background: #161b22;
+            padding: 30px;
+            border-radius: 12px;
+            width: 350px;
+            text-align: center;
+            margin-top: 20px;
+            box-shadow: 0 0 15px rgba(255,255,255,0.06);
+        }
+
+        #dice {
+            font-size: 70px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            background: #238636;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 6px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        button:hover {
+            background: #2ea043;
+        }
+
+        #result {
+            list-style: none;
+            padding: 0;
+            margin-top: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        #result li {
+            font-size: 30px;
+            margin: 5px 0;
+        }
+
+        #mouse-position {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+            color: #8b949e;
+        }
+
     </style>
 </head>
 
 <body>
-    <ul>
-        <li>
-            <a href="./index.html">Home</a>
-        </li>
-        <li>
-            <a href="./dice.html">Dice</a>
-        </li>
+
+    <ul class="nav">
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./dice.html">Dice</a></li>
     </ul>
-    <p id="dice" class="dice"></p>
-    <button id="roll-dice">Roll</button>
-    <ul id="result"></ul>
-    <p id="mouse-position"></p>
+
+    <div class="container">
+        <h1>Dice Roller</h1>
+
+        <p id="dice">🎲</p>
+
+        <button id="roll-dice">Roll Dice</button>
+
+        <ul id="result"></ul>
+
+        <p id="mouse-position"></p>
+    </div>
 
     <script>
-        const diceResult = []
+        const diceResult = [];
         const diceArray = ['&#9856;', '&#9857;', '&#9858;', '&#9859;', '&#9860;', '&#9861;'];
+
         const rollDice = document.getElementById('roll-dice');
-        const dice = document.getElementById('dice')
-        const resultDiv = document.getElementById('result')
-        const mousePosition = document.getElementById('mouse-position')
+        const dice = document.getElementById('dice');
+        const resultDiv = document.getElementById('result');
+        const mousePosition = document.getElementById('mouse-position');
 
-        rollDice.addEventListener('click', function (event) {
-            const randomNumber = Math.floor(Math.random() * 6)
-            diceResult.push(randomNumber)
-            dice.innerHTML = diceArray[randomNumber]
+        rollDice.addEventListener('click', function () {
+            const randomNumber = Math.floor(Math.random() * 6);
+            diceResult.push(randomNumber);
 
-            console.log(diceResult);
-            resultDiv.innerHTML = ''
+            dice.innerHTML = diceArray[randomNumber];
+
+            resultDiv.innerHTML = '';
             diceResult.forEach(function (result) {
                 resultDiv.innerHTML += `<li>${diceArray[result]}</li>`;
-            })
-        })
+            });
+        });
 
         document.addEventListener('mousemove', function (event) {
-
-            mousePosition.innerText = `x-${event.x} y-${event.y}`
-        })
-
+            mousePosition.innerText = `Mouse →  X: ${event.x}   Y: ${event.y}`;
+        });
     </script>
+
 </body>
 
 </html>
